@@ -7,39 +7,10 @@ Best decided by author of the whole library.
 Passed with standard c++14, c++17 and compiler gcc-7.3.0
 */
 
-#ifndef READYAML_CAOBO1994_H
-#define READYAML_CAOBO1994_H
-
-#include <cstdint>
-
-#include <yaml-cpp/yaml.h>
-
-#include <algorithm>
-#include <deque>
-#include <forward_list>
-#include <list>
-#include <map>
-#include <numeric>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <vector>
-
-#include <string>
-
-#include <exception>
+#ifndef READYAML_RWYAML_H
+#define READYAML_RWYAML_H
 
 // Definitions
-
-/*
-Appends new error information to the error information
- of an old std::append_logic_error
-object to produce and return a new std::logic_error object.
-*/
-std::logic_error append_logic_error(
-    const std::logic_error& old_exception,
-    const std::string& new_content) throw();
 
 /*
 A general template to read object from a YAML::Node object.
