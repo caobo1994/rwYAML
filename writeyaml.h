@@ -1,0 +1,4 @@
+#ifndef WRITEYAML_RWYAML_H
+#define WRITEYAML_RWYAML_H
+
+#endif
