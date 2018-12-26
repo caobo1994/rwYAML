@@ -7,8 +7,11 @@ Best decided by author of the whole library.
 Passed with standard c++14, c++17 and compiler gcc-7.3.0
 */
 
-#ifndef READYAML_RWYAML_H
-#define READYAML_RWYAML_H
+#ifndef READYAML_RWYAML_HPP
+#define READYAML_RWYAML_HPP
+
+#include "common.hpp"
+#include "basic_functions.hpp"
 
 // Definitions
 
