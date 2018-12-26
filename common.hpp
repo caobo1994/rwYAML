@@ -1,5 +1,5 @@
-#ifndef COMMON_RWYAML_H
-#define COMMON_RWYAML_H
+#ifndef COMMON_RWYAML_HPP
+#define COMMON_RWYAML_HPP
 
 #include <cstdint>
 
