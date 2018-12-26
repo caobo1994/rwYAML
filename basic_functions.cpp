@@ -1,4 +1,4 @@
-#include "basic_functions.h"
+#include "basic_functions.hpp"
 
 std::logic_error append_logic_error(
   const std::logic_error& old_exception,
