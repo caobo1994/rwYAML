@@ -15,6 +15,9 @@ YAML::Node writeYAML(It begin, It end);
 template <class T>
 YAML::Node writeYAMLSimple(const T& content);
 
+template <class T1, class T2>
+YAML::Node writeYAML(const std::pair<T1, T2>& content);
+
 template <class T, template <class> class LIST>
 YAML::Node writeYAMLList(const LIST<T>& content);
 
@@ -71,6 +74,14 @@ template <class T>
 YAML::Node writeYAMLSimple(const T& content)
 {
   return YAML::Node(std::to_string(content));
+}
+
+template <class T1, class T2>
+YAML::Node writeYAML(const std::pair<T1, T2>& content)
+{
+  YAML::Node node;
+  node[0] = content.first;
+  node[1] = content.second;
 }
 
 template <class T, template <class> class LIST>
