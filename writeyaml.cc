@@ -1,11 +1,11 @@
 #include "writeyaml.h"
 
-#define SIMPLEWRITE(T)
-template <class T>
-YAML::Node writeYAML(const T& content)
-{
-  return writeYAMLSimple(content);
-}
+#define SIMPLEWRITE(T) \
+template <class T> \
+YAML::Node writeYAML(const T& content) \
+{ \
+  return writeYAMLSimple(content); \
+} \
 template
 YAML::Node writeYAML<T>(const T& content);
 
@@ -27,5 +27,7 @@ SIMPLEWRITE(long double)
 
 SIMPLEWRITE(char)
 SIMPLEWRITE(std::string)
+
+#undef SIMPLEWRITE
 
 using namespace std;
