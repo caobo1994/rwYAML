@@ -1,7 +1,7 @@
-#ifndef BASIC_FUNCTIONS_RWYAML_H
-#define BASIC_FUNCTIONS_RWYAML_H
+#ifndef BASIC_FUNCTIONS_RWYAML_HPP
+#define BASIC_FUNCTIONS_RWYAML_HPP
 
-#include "common.h"
+#include "common.hpp"
 
 /*
 Appends new error information to the error information

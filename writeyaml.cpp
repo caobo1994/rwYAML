@@ -1,4 +1,4 @@
-#include "writeyaml.h"
+#include "writeyaml.hpp"
 
 #define SIMPLEWRITE(T) \
 template <class T> \

@@ -1,8 +1,8 @@
-#ifndef WRITEYAML_RWYAML_H
-#define WRITEYAML_RWYAML_H
+#ifndef WRITEYAML_RWYAML_HPP
+#define WRITEYAML_RWYAML_HPP
 
-#include "common.h"
-#include "basic_functions.h"
+#include "common.hpp"
+#include "basic_functions.hpp"
 
 
 //Declarations
