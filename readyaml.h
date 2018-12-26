@@ -10,6 +10,9 @@ Passed with standard c++14, c++17 and compiler gcc-7.3.0
 #ifndef READYAML_RWYAML_H
 #define READYAML_RWYAML_H
 
+#include "common.h"
+#include "basic_functions.h"
+
 // Definitions
 
 /*
