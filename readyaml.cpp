@@ -42,12 +42,11 @@ SIMPLEREAD(uint16_t)
 SIMPLEREAD(uint32_t)
 SIMPLEREAD(uint64_t)
 
-SIMPLEREAD(char)
-
 SIMPLEREAD(float)
 SIMPLEREAD(double)
 SIMPLEREAD(long double)
 
+SIMPLEREAD(char)
 SIMPLEREAD(std::string)
 
 #undef SIMPLEREAD

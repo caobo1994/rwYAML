@@ -178,7 +178,7 @@ size_t appendYAMLObjList(const YAML::Node& source, LIST& dest);
 Realize appendYAMLObjRange, readYAMLObjRange, readYAMLObj, appendYAMLObj
 for all list-like container types.
 */
-#define LISTOP(LIST)                                                   \
+#define LISTREAD(LIST)                                                   \
   template <class T>                                                   \
   size_t appendYAMLObjRange(YAML::const_iterator begin,                \
                             YAML::const_iterator end, LIST<T>& dest) { \
@@ -198,11 +198,11 @@ for all list-like container types.
     return appendYAMLObjList<T>(source, dest);                         \
   }
 
-LISTOP(std::vector)
-LISTOP(std::deque)
-LISTOP(std::forward_list)
-LISTOP(std::list)
-#undef LISTOP
+LISTREAD(std::vector)
+LISTREAD(std::deque)
+LISTREAD(std::forward_list)
+LISTREAD(std::list)
+/* #undef LISTOP */
 
 /*
 From now on, the set-like containers are defined as containers
@@ -229,7 +229,7 @@ size_t readYAMLObjSet(const YAML::Node& source, SET& dest);
 template <class T, class SET>
 size_t appendYAMLObjSet(const YAML::Node& source, SET& dest);
 
-#define SETOP(SET)                                                          \
+#define SETREAD(SET)                                                          \
   template <class T>                                                        \
   size_t appendYAMLObjRange(const YAML::const_iterator begin,               \
                             const YAML::const_iterator end, SET<T>& dest) { \
@@ -249,11 +249,11 @@ size_t appendYAMLObjSet(const YAML::Node& source, SET& dest);
     return appendYAMLObjSet<T>(source, dest);                               \
   }
 
-SETOP(std::set)
-SETOP(std::multiset)
-SETOP(std::unordered_set)
-SETOP(std::unordered_multiset)
-#undef SETOP
+SETREAD(std::set)
+SETREAD(std::multiset)
+SETREAD(std::unordered_set)
+SETREAD(std::unordered_multiset)
+/* #undef SETREAD */
 
 /*
 From now on, the map-like containers are defined as containers
@@ -281,7 +281,7 @@ size_t readYAMLObjMap(const YAML::Node& source, MAP& dest);
 template <class K, class V, class MAP>
 size_t appendYAMLObjMap(const YAML::Node& source, MAP& dest);
 
-#define MAPOP(MAP)                                                       \
+#define MAPREAD(MAP)                                                       \
   template <class K, class V>                                            \
   size_t appendYAMLObjRange(YAML::const_iterator begin,                  \
                             YAML::const_iterator end, MAP<K, V>& dest) { \
@@ -301,11 +301,11 @@ size_t appendYAMLObjMap(const YAML::Node& source, MAP& dest);
     return appendYAMLObjMap<K, V>(source, dest);                         \
   }
 
-MAPOP(std::map)
-MAPOP(std::multimap)
-MAPOP(std::unordered_map)
-MAPOP(std::unordered_multimap)
-#undef MAPOP
+MAPREAD(std::map)
+MAPREAD(std::multimap)
+MAPREAD(std::unordered_map)
+MAPREAD(std::unordered_multimap)
+/* #undef MAPREAD */
 
 // Template declarations
 template <class T>
