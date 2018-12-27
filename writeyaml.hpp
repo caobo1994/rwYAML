@@ -70,10 +70,26 @@ MAPWRITE(std::unordered_map)
 MAPWRITE(std::unordered_multimap)
 
 template <class T, template<class> class LIST>
-YAML::Node writeYAMLOrder(const LIST<T>& content, const auto& Op = std::less<T>());
+YAML::Node writeYAMLOrder(
+  LIST<T>::const_iterator begin,
+  LIST<T>::const_iterator end,
+  const auto& Op = std::less<T>());
+
+template <class T, template<class> class LIST>
+YAML::Node writeYAMLOrder(
+  const LIST<T>& content,
+  const auto& Op = std::less<T>());
+
+template <class K, class V, template<class> class MAP>
+YAML::Node writeYAMLOrder(
+  MAP<K, V>::const_iterator begin,
+  MAP<K, V>::const_iterator end,
+  const auto& Op = std::less<T>());
 
 template <class K, class V, template<class> class LIST>
-YAML::Node writeYAMLOrder(const MAP<K, V>& content, const auto& Op = std::less<T>());
+YAML::Node writeYAMLOrder(
+  const MAP<K, V>& content,
+  const auto& Op = std::less<T>());
 
 //Definitions
 template <class T>
@@ -127,7 +143,10 @@ YAML::Node writeYAMLMap(It begin, It end)
 }
 
 template <class T, template<class> class LIST>
-YAML::Node writeYAMLOrder(LIST<T>::const_iterator begin, LIST<T>::const_iterator end, const auto& Op)
+YAML::Node writeYAMLOrder(
+  LIST<T>::const_iterator begin,
+  LIST<T>::const_iterator end,
+  const auto& Op)
 {
   std::multiset<T, decltype(Op)> temp;
   std::copy(begin, end, inserter(temp));
@@ -142,7 +161,10 @@ YAML::Node writeYAMLOrder(const LIST<T>& content, const auto& Op)
 
 
 template <class K, class V, template<class> class MAP>
-YAML::Node writeYAMLOrder(MAP<K, V>::const_iterator begin, MAP<K, V>::const_iterator end, const auto& Op = std::less<T>());
+YAML::Node writeYAMLOrder(
+  MAP<K, V>::const_iterator begin,
+  MAP<K, V>::const_iterator end,
+  const auto& Op)
 {
   std::multimap<K, V, decltype(Op)> temp;
   temp.insert(begin, end);
