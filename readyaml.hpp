@@ -423,7 +423,7 @@ size_t appendYAMLObjInserter(const YAML::Node& source, INSERTER inserter) {
 template <class T, class LIST>
 size_t appendYAMLObjRangeList(YAML::const_iterator begin,
                               YAML::const_iterator end, LIST& dest) {
-  return appendYAMLObjInserter<T>(begin, end, back_inserter(dest));
+  return appendYAMLObjInserter<T>(begin, end, std::back_inserter(dest));
 }
 
 template <class T, class LIST>
@@ -478,7 +478,7 @@ size_t appendYAMLObjList(const YAML::Node& source, LIST& dest) {
 template <class T, class SET>
 size_t appendYAMLObjRangeSet(YAML::const_iterator begin,
                              YAML::const_iterator end, SET& dest) {
-  return appendYAMLObjInserter<T>(begin, end, inserter(dest, dest.end()));
+  return appendYAMLObjInserter<T>(begin, end, std::inserter(dest, dest.end()));
 }
 
 template <class T, class SET>
