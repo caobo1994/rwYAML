@@ -21,8 +21,10 @@ YAML::Node writeYAML(const std::pair<T1, T2>& content);
 template <class T, template <class> class LIST>
 YAML::Node writeYAMLList(const LIST<T>& content);
 
-template <class T, class It>
-YAML::Node writeYAMLList(It begin, It end);
+template <class T, template <class> class LIST>
+YAML::Node writeYAMLList(
+  LIST<T>::const_iterator begin,
+  LIST<T>::const_iterator end);
 
 #define LISTWRITE(LIST) \
 template <class T> \
@@ -47,19 +49,21 @@ LISTWRITE(std::unordered_set)
 LISTWRITE(std::unordered_multiset)
 
 template <class K, class V, template<class> class MAP>
-YAML::Node writeYAMLMap(const MAP<T>& content);
+YAML::Node writeYAMLMap(const MAP<K, V>& content);
 
-template <class T, class It>
-YAML::Node writeYAMLMap(It begin, It end);
+template <class K, class V, template<class> class MAP>
+YAML::Node writeYAMLMap(
+  MAP<K, V>::const_iterator begin,
+  MAP<K, V>::const_iterator end);
 
 #define MAPWRITE(MAP) \
-template <class T> \
-YAML::Node writeYAML(const MAP<T>& content) \
+template <class K, class V> \
+YAML::Node writeYAML(const MAP<K, V>& content) \
 { \
   return writeYAMLMap(content); \
 } \
-template <class T>
-YAML::Node writeYAML(MAP<T>::const_iterator begin, MAP<T>::const_iterator end)
+template <class K, class V>
+YAML::Node writeYAML(MAP<K, V>::const_iterator begin, MAP<K, V>::const_iterator end)
 { \
   return writeYAMLMap(begin, end); \
 } \
@@ -112,27 +116,31 @@ YAML::Node writeYAMLList(const LIST<T>& content)
   return writeYAMLList(content.begin(), content.end());
 }
 
-template <class It>
-YAML::Node writeYAMLList(It begin, It end)
+template <class T, template <class> class LIST>
+YAML::Node writeYAMLList(
+  LIST<T>::const_iterator begin,
+  LIST<T>::const_iterator end)
 {
   YAML::Node node;
   size_t count = 0;
   for (auto x = begin; x != end; ++x)
   {
-    node[count] = writeYAML(*It);
+    node[count] = writeYAML(*x);
     ++count;
   }
   return node;
 }
 
 template <class K, class V, template<class> class MAP>
-YAML::Node writeYAMLMap(const MAP<T>& content)
+YAML::Node writeYAMLMap(const MAP<K, V>& content)
 {
   return writeYAMLMap(content.begin(), content.end());
 }
 
-template <class It>
-YAML::Node writeYAMLMap(It begin, It end)
+template <class K, class V, template<class> class MAP>
+YAML::Node writeYAMLMap(
+  MAP<K, V>::const_iterator begin,
+  MAP<K, V>::const_iterator end)
 {
   YAML::Node node;
   for (auto x = begin; x != end; ++x)
