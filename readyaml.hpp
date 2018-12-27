@@ -84,14 +84,41 @@ source: the YAML::Node object where we read from.
 dest: the object we get by reading and parsing source.
 */
 template <class T>
-size_t readYAMLObjScalar(const YAML::Node& source, T& dest);
+size_t readYAMLObjScalar(const YAML::Node& source, T& dest_ptr);
 
 /*
-A templater to read objects from a */
+A templater to read pointer-array objects from a series of YAML::Node objects.
+A pointer-array is an array, with a pointer pointing to its first element.
+The pointer can either be a raw poiner, a std::weak_ptr or a std::shared_ptr.
+Users are responsible to allocate enough space for the array,
+and deallocate the space when it is not needed.
+begin, end: Iterators enclosing a series of YAML::Node objects
+where we read from.
+dest_ptr: the point to the first element of the array that we get by reading
+and parsing source.
+*/
+template <class TP>
+size_t readYAMLObjPointer(
+  YAML::const_iterator begin,
+  YAML::const_iterator end,
+  TP& dest);
 
+/*
+A templater to read pointer-array objects from a YAML::Node Sequence object.
+A pointer-array is an array, with a pointer pointing to its first element.
+The pointer can either be a raw poiner, a std::weak_ptr or a std::shared_ptr.
+Users are responsible to allocate enough space for the array,
+and deallocate the space when it is not needed.
+source: the YAML::Node object where we read from.
+dest_ptr: the point to the first element of the array that we get by reading
+and parsing source.
+*/
 template <class T, class TP>
 size_t readYAMLObjPointer(const YAML::Node& source, TP& dest);
 
+/*
+Realize readYAMLObj for raw pointer, std::weak_ptr and std::shared_ptr
+*/
 #define POINTERREAD(TP) \
 template <class T> \
 size_t readYAMLObj(const YAML::Node& source, TP& dest) \
@@ -346,27 +373,34 @@ size_t readYAMLObjScalar(const YAML::Node& source, T& dest) {
   }
 }
 
-template <class T, class TP>
-size_t readYAMLObjPointer(const YAML::Node& source, TP& dest)
+template <class TP>
+size_t readYAMLObjPointer(
+  YAML::const_iterator begin,
+  YAML::const_iterator end,
+  TP& dest_ptr)
+{
+  auto xx = dest_ptr;
+  size_t count = 0;
+  for(auto x = begin; x!=end; ++x)
+  {
+    readYAMLObj(*x, *xx);
+    ++xx;
+    ++count;
+  }
+  return count;
+}
+
+template <class TP>
+size_t readYAMLObjPointer(const YAML::Node& source, TP& dest_ptr)
 {
   switch (source.Type())
   {
     case YAML::NodeType::Null:
       return 0;
     case YAML::NodeType::Scalar:
-      return readYAMLObj(source, *dest);
+      return readYAMLObj(source, *dest_ptr);
     case YAML::NodeType::Sequence:
-    {
-      auto xx = dest;
-      size_t count = 0;
-      for(auto x = source.begin(); x!=source.end(); ++x)
-      {
-        readYAMLObj(*x, *xx);
-        ++xx;
-        ++count;
-      }
-      return count;
-    }
+      return readYAMLObjPointer(source.begin(), source.end(), dest_ptr);
     case YAML::NodeType::Map:
       throw std::logic_error("No YAML Map for pointer array! ");
       return 0;

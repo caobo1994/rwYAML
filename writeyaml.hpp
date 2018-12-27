@@ -18,11 +18,19 @@ YAML::Node writeYAMLSimple(const T& content);
 template <class T>
 YAML::Node writeYAMLPointer(T begin, T end);
 
+template <class T>
+YAML::Node writeYAMLPointerCount(T begin, size_t count);
+
 #define POINTERWRITE(TP) \
 template <class T> \
 YAML::Node writeYAML(TP begin, TP end) \
 { \
   return writeYAMLPointer(begin, end); \
+} \
+template <class T> \
+YAML::Node wirteYAML(TP begin, size_t count) \
+{ \
+  return writeYAMLPointerCount(begin, count); \
 } \
 
 POINTERWRITE(T*)
