@@ -6,7 +6,7 @@ YAML::Node writeYAML(const T& content) \
 { \
   return writeYAMLSimple(content); \
 } \
-template
+template \
 YAML::Node writeYAML<T>(const T& content);
 
 SIMPLEWRITE(bool)
