@@ -87,6 +87,23 @@ template <class T>
 size_t readYAMLObjScalar(const YAML::Node& source, T& dest);
 
 /*
+A templater to read objects from a */
+
+template <class T, class TP>
+size_t readYAMLObjPointer(const YAML::Node& source, TP& dest);
+
+#define POINTERREAD(TP) \
+template <class T> \
+size_t readYAMLObj(const YAML::Node& source, TP& dest) \
+{ \
+  return readYAMLObjPointer(source, dest); \
+} \
+
+POINTERREAD(T*)
+POINTERREAD(std::weak_ptr<T>);
+POINTERREAD(std::shared_ptr<T>);
+
+/*
 A template to read std::pair object from a YAML::Node Sequence object.
 The size of the Sequence shall at least be 2,
 otherwise, std::logic_error-type exception will be thrown.
@@ -327,6 +344,37 @@ size_t readYAMLObjScalar(const YAML::Node& source, T& dest) {
       throw std::logic_error("Unknown YAML type! ");
       return 0;
   }
+}
+
+template <class T, class TP>
+size_t readYAMLObjPointer(const YAML::Node& source, TP& dest)
+{
+  switch (source.Type())
+  {
+    case YAML::NodeType::Null:
+      return 0;
+    case YAML::NodeType::Scalar:
+      return readYAMLObj(source, *dest);
+    case YAML::NodeType::Sequence:
+    {
+      auto xx = dest;
+      size_t count = 0;
+      for(auto x = source.begin(); x!=source.end(); ++x)
+      {
+        readYAMLObj(*x, *xx);
+        ++xx;
+        ++count;
+      }
+      return count;
+    }
+    case YAML::NodeType::Map:
+      throw std::logic_error("No YAML Map for pointer array! ");
+      return 0;
+    default:
+      throw std::logic_error("Unknown YAML type! ");
+      return 0;
+  }
+  return 0;
 }
 
 template <class T0, class T1> /* pair */

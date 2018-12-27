@@ -15,6 +15,20 @@ YAML::Node writeYAML(It begin, It end);
 template <class T>
 YAML::Node writeYAMLSimple(const T& content);
 
+template <class T>
+YAML::Node writeYAMLPointer(T begin, T end);
+
+#define POINTERWRITE(TP) \
+template <class T> \
+YAML::Node writeYAML(TP begin, TP end) \
+{ \
+  return writeYAMLPointer(begin, end); \
+} \
+
+POINTERWRITE(T*)
+POINTERWRITE(std::weak_ptr<T>)
+POINTERWRITE(std::shared_ptr<T>)
+
 template <class T1, class T2>
 YAML::Node writeYAML(const std::pair<T1, T2>& content);
 
@@ -100,6 +114,19 @@ template <class T>
 YAML::Node writeYAMLSimple(const T& content)
 {
   return YAML::Node(std::to_string(content));
+}
+
+template <class T>
+YAML::Node writeYAMLPointer(T begin, T end)
+{
+  YAML::Node node;
+  size_t count = 0;
+  for(auto x = begin; x != end; ++x)
+  {
+    node[count] = writeYAML(*x);
+    ++count;
+  }
+  return node;
 }
 
 template <class T1, class T2>

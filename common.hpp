@@ -21,4 +21,6 @@
 
 #include <exception>
 
+#include <memory>
+
 #endif
