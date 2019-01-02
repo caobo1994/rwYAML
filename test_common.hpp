@@ -17,6 +17,7 @@ public:
   YAML::Node nstring;
   vector<int> dvint;
   YAML::Node nvint;
+  
   testdata ();
   virtual ~testdata ();
 };
